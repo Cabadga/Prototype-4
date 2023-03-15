@@ -7,6 +7,7 @@ public class EnemyX : MonoBehaviour
     public float speed;
     private Rigidbody enemyRb;
     private GameObject playerGoal;
+    private SpawnManagerX spawnManager;
     
 
     // Start is called before the first frame update
@@ -14,14 +15,16 @@ public class EnemyX : MonoBehaviour
     {
         enemyRb = GetComponent<Rigidbody>();
         playerGoal = GameObject.Find("Player Goal");
+        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManagerX>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        float enemySpeed = spawnManager.increaseSpeed;
         // Set enemy direction towards player goal and move there
         Vector3 lookDirection = (playerGoal.transform.position - transform.position).normalized;
-        enemyRb.AddForce(lookDirection * speed * Time.deltaTime);
+        enemyRb.AddForce(lookDirection * enemySpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision other)
